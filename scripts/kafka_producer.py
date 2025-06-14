@@ -6,7 +6,7 @@ import time
 import pandas as pd
 
 # Cargar barrios con coordenadas
-df = pd.read_csv("data/Plata/barrios_coordenadas.csv")
+df = pd.read_csv("data/plata/barrios_coordenadas.csv")
 
 # Configurar productor Kafka
 producer = KafkaProducer(
