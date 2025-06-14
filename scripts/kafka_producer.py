@@ -31,4 +31,4 @@ while True:
             producer.send("clima-barcelona", mensaje)
         except Exception as e:
             print(f"Error con {row.nom_barri}: {e}")
-    time.sleep(5)
+    time.sleep(10)
