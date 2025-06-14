@@ -5,3 +5,4 @@
 pip install kafka-python requests
 python kafka_producer.py
 python kafka_consumer.py
+$env:PATH += ";C:\hadoop\bin"
