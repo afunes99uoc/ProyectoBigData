@@ -8,7 +8,7 @@ os.environ["HADOOP_HOME"] = "C:/hadoop"
 # Crear sesión Spark con el conector Kafka
 spark = SparkSession.builder \
     .appName("KafkaSparkStreamingClima") \
-    .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.1") \
+    .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.13:3.4.1") \
     .getOrCreate()
 
 # Esquema del JSON enviado por Kafka
