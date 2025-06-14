@@ -6,7 +6,7 @@ import time
 import pandas as pd
 
 # Cargar barrios con coordenadas
-df = pd.read_csv("data/plata/barrios_coordenadas.csv")
+df = pd.read_csv("data/Plata/barrios_coordenadas.csv")
 
 # Configurar productor Kafka
 producer = KafkaProducer(
@@ -14,19 +14,26 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 
-# Bucle infinito para emitir datos
 while True:
     for _, row in df.iterrows():
         try:
-            response = requests.get(
-                f"https://api.open-meteo.com/v1/forecast?latitude={row.lat}&longitude={row.lon}&current_weather=true"
+            url = (
+                f"https://api.open-meteo.com/v1/forecast?"
+                f"latitude={row.lat}&longitude={row.lon}"
+                f"&current=temperature_2m,wind_speed_10m,relative_humidity_2m,precipitation,surface_pressure"
             )
-            data = response.json().get("current_weather", {})
+            response = requests.get(url)
+            current = response.json().get("current", {})
+
             mensaje = {
                 "ciudad": row.nom_barri,
-                "temperatura": data.get("temperature"),
-                "humedad": 60  # puedes enriquecer esto si obtienes más datos reales
+                "temperatura_2m": current.get("temperature_2m"),
+                "wind_speed_10m": current.get("wind_speed_10m"),
+                "relative_humidity_2m": current.get("relative_humidity_2m"),
+                "precipitation": current.get("precipitation"),
+                "surface_pressure": current.get("surface_pressure")
             }
+
             print("Enviando:", mensaje)
             producer.send("clima-barcelona", mensaje)
         except Exception as e:
