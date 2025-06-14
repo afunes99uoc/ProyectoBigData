@@ -1,4 +1,3 @@
-# simular_kafka_clima.py
 from kafka import KafkaProducer
 import requests
 import json
